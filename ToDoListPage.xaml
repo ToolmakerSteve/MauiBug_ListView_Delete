@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:MauiApp3" x:Class="MauiApp3.ToDoListPage" Title="ToDoListPage">
+    <ContentPage.BindingContext>
+        <local:TodoListViewModel />
+    </ContentPage.BindingContext>
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Margin="0,30,0,0" BackgroundColor="Gray">
+        <Entry Grid.Row="0" FontSize="24" Placeholder="Enter a ToDo"
+               Text="{Binding NewTodoText}" ReturnCommand="{Binding AddTodoCommand}" />
+        <Button Grid.Row="1" Margin="10" Padding="10" FontSize="24"
+                Text="Add a Todo" Command="{Binding AddTodoCommand}" />
+        <ListView Grid.Row="2" x:Name="TodoList" ItemsSource="{Binding TodoItems}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Margin="10, 0, 0, 0" ColumnDefinitions="auto, *, 50">
+                            <CheckBox Grid.Column="0" IsChecked="{Binding Complete}" />
+                            <Label Grid.Column="1" Text="{Binding TodoText}" FontSize="24" />
+                            <Button Text="Del" Grid.Column="2" HorizontalOptions="Fill"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding Path=BindingContext.RemoveTodoCommand, Source={x:Reference TodoList}}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>
